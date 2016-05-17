@@ -6,9 +6,9 @@ app.set('port', (process.env.PORT || 3001));
 
 app.use(express.static(__dirname + '/public'));
 
-app.get('/regions.geojson', function (request, response) {
+/*app.get('/regions.geojson', function (request, response) {
   response.sendFile(__dirname + '/public/regions.geojson');
-});
+});*/
 
 app.get('/visualization', function (req, res) {
 

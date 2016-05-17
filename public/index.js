@@ -25,43 +25,6 @@ var submit = document.createElement('input');
 submit.type = 'submit';
 submit.value = 'fetch tags';
 
-
-var visTypes = {
-  "MapBox": {
-    constructor: function () {
-      var map = L.map($main).setView([55.707,12.529], 15);
-      L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={access_token}', {
-        id: 'ddamba.ofm04n7i',
-        access_token: 'pk.eyJ1IjoiZGRhbWJhIiwiYSI6Ik9vX1VPdmcifQ.nEbSOXJ-DWVGhiEY771xvg',
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors' //<br><img src="smiley.gif" alt="Smiley face" height="42" width="42">'
-      }).addTo(map);
-
-    }
-  },
-  "Cow": {
-    constructor: function () {
-      mapContainer.appendChild(document.createTextNode("I am a Cow"));
-    }
-  }
-};
-
-function getVisualization () {
-
-  var xhr = new XMLHttpRequest();
-  var url = "/visualization";
-  xhr.open("GET", url);
-  xhr.send();
-
-  xhr.onreadystatechange = function () {
-    if (xhr.readyState == 4 && xhr.status == 200) {
-      var visualization = JSON.parse(xhr.responseText);
-      console.log(visualization);
-      console.log(visTypes[visualization.type].constructor);
-      visTypes[visualization.type].constructor();
-    }
-  }
-}
-
 var map = L.map($main).setView([55.710,12.529], 14);
 
 L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={access_token}', {
@@ -115,10 +78,20 @@ function addToMap(media) {
   });
 
   var marker = L.marker([media.location.latitude, media.location.longitude], {icon:icon});
-  marker.bindPopup('<img width="300px" src="'+media.images.standard_resolution.url+'"/><a href="'+media.link+'">'+"Til instagram profil"+'</a>')
-  clusterGroup.addLayer(marker)
+  function showPopup(e) {
+    var popup = L.popup();
+        popup.setLatLng(e.latlng);
+        popup.setContent('<a onclick="map.closePopup()"><img width="300px" src="'+media.images.standard_resolution.url+'"/></a><br><a href="'+media.link+'">'+"Gå til instagram profil"+'</a>');
+        popup.openOn(map);
+  }
+  //marker.bindPopup('<img width="300px" src="'+media.images.standard_resolution.url+'"/><a href="'+media.link+'">'+"Til instagram profil"+'</a>')
+  //clusterGroup.addLayer(marker)
 
-  map.addLayer(clusterGroup);
+  //map.addLayer(clusterGroup);
+  marker.addTo(map);
+ 
+  marker.on('click', showPopup); 
+  //marker.bindPopup('<a onclick=""><img width="300px" src="'+media.images.standard_resolution.url+'"/></a>');
 }
 
 
@@ -144,7 +117,7 @@ function showSlide(n) {
     var img = document.createElement('img');
 
 
-    img.src = slides[n].images.standard_resolution.url.replace("s640x640","s100x100");
+    img.src = slides[n].images.standard_resolution.url;//replace("s640x640","s100x100");
 
     var link = document.createElement('a');
     link.href = slides[n].link;
