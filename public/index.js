@@ -3,14 +3,11 @@ var access_token = "16384709.6ac06b4.49b97800d7fd4ac799a2c889f50f2587",
         access_token: access_token
     };
 
-var $miscLeft   = document.getElementById('misc-left');
-var $miscMiddle = document.getElementById('misc-middle');
-var $miscRight  = document.getElementById('misc-right');
+var $slideshow  = document.getElementById('slideshow');
 var $main = document.getElementById('main');
 
 var slides = [];
 
-var clusterGroup = L.markerClusterGroup();
 var ajax = {};
 
 // CREATE THE SEARCH FIELD
@@ -81,7 +78,7 @@ function addToMap(media) {
   function showPopup(e) {
     var popup = L.popup();
         popup.setLatLng(e.latlng);
-        popup.setContent('<a onclick="map.closePopup()"><img width="300px" src="'+media.images.standard_resolution.url+'"/></a><br><a href="'+media.link+'">'+"Gå til instagram profil"+'</a>');
+        popup.setContent('<a onclick="map.closePopup()"><img width="300px" src="'+media.images.standard_resolution.url+'"/></a><br><a href="'+media.link+'">'+"Gå til instagram-profil"+'</a>');
         popup.openOn(map);
   }
   //marker.bindPopup('<img width="300px" src="'+media.images.standard_resolution.url+'"/><a href="'+media.link+'">'+"Til instagram profil"+'</a>')
@@ -124,8 +121,8 @@ function showSlide(n) {
 
     link.appendChild(img);
 
-    $miscMiddle.innerHTML = '';
-    $miscMiddle.appendChild(link);
+    $slideshow.innerHTML = '';
+    $slideshow.appendChild(link);
 
   }
 
